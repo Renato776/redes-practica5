@@ -1,5 +1,6 @@
 # Redes1-Practica5_Grupo12
 ## 201700326
+## 201709244
 
 ## Numero de host para las topologias
 
@@ -74,3 +75,96 @@ Para corroborar esto, se debe hacer ping desde un cliente a la otra topologia
 
 ![image](https://i.imgur.com/IRpZepG.png)
 
+<h2>Topologia 2</h2>
+
+## Configuracion
+
+### Creación de las VLANs
+
+Es necesario crear la vlan nativa de esta topología (INVITADOS) como 
+también crear las vlans que se espera recibir de la topología 1 
+(PROFESORES y ESTUDIANTES). Se procede entonces a crear las vlans.
+#### Comandos:
+- conf t
+- vlan {numero}
+- name {nombre}
+- end
+  
+Podemos ver en el ESW2 con el comando sh vlan-sw,
+si estan todas las vlans creadas.
+
+![image](screens/vlans.png)
+
+### Configuración de puertos
+Configuramos los puertos en modo Trunk para admitir conexión intervlan.
+
+- conf t
+- interface {interface}
+- switchport mode trunk
+- end
+
+### EIGRP
+
+Procedemos a configurar el EIGRP.
+
+#### R2
+
+##### Comandos
+- conf t
+- router eigrp 10
+- network 10.10.0.0 0.0.0.255
+- network 20.10.0.0 0.0.0.255
+- network 192.168.15.0 0.0.0.255
+- end
+
+#### R3
+
+##### Comandos
+- conf t
+- router eigrp 10
+- network 10.10.0.0 0.0.0.255
+- network 20.10.0.0 0.0.0.255
+- network 192.168.15.0 0.0.0.255
+- end
+
+#### R4
+
+##### Comandos
+- conf t
+- router eigrp 10
+- network 10.10.0.0 0.0.0.255
+- network 20.10.0.0 0.0.0.255
+- network 192.168.15.0 0.0.0.255
+- end
+
+### VRRP
+Ahora procedemos a configurar el VRRP.
+
+#### R3
+- conf t
+- vrrp 10
+- vrrp 10 ip 192.168.15.3
+- vrrp 10 priority 120
+- vrrp 10 preempt
+- end
+
+#### R4
+- conf t
+- vrrp 10
+- vrrp 10 ip 192.168.15.3
+- vrrp 10 priority 100
+- end
+
+### Ruteo estatico
+Finalmente debemos aprender las redes de la topología 1. Hacemos 
+esto de la siguiente manera:
+
+#### Comandos:
+- conf t
+- ip route {ip de la red} {mascara de la red} {ip de la interfaz}
+- end
+
+Realizamos este proceso en todos los Routers de la topología (R2,R3,R4).
+
+Finalmente comprobamos realizando un ping a clientes de la topología 1.
+![image](screens/linux.png)
