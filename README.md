@@ -77,6 +77,8 @@ Para corroborar esto, se debe hacer ping desde un cliente a la otra topologia
 
 <h2>Topologia 2</h2>
 
+![image](screens/topologia2.png)
+
 ## Configuracion
 
 ### Creación de las VLANs
@@ -167,4 +169,4 @@ esto de la siguiente manera:
 Realizamos este proceso en todos los Routers de la topología (R2,R3,R4).
 
 Finalmente comprobamos realizando un ping a clientes de la topología 1.
-![image](screens/linux.png)
+![image](screens/tinyLinux.png)
